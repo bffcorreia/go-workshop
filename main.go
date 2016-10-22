@@ -4,6 +4,7 @@ import (
   //"fmt"
   "net/http"
   "html/template"
+  "github.com/gorilla/mux"
 )
 
 var templates = template.Must(template.ParseGlob("templates/*.tmpl"))
@@ -29,6 +30,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() { http.HandleFunc("/", handler)
+  r := mux.NewRouter()
+  r.HandleFunc("/", handler).Methods("GET")
   http.ListenAndServe(":8080", nil)
 }
 
