@@ -1,6 +1,6 @@
 {{ define "index" }}
 
-{{ template "header" }}
-<center>Hello there {{ .Name }} {{ .name }}!</center>
+{{ template "header" .Header }}
+<center>Hello there {{ .Name }}!</center>
 {{ template "footer" }}
 {{ end }}
