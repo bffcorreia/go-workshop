@@ -9,7 +9,17 @@ import (
 var templates = template.Must(template.ParseGlob("templates/*.tmpl"))
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  templates.ExecuteTemplate(w, "index", nil)
+  type Index struct {
+    Name string
+    name string
+  }
+
+  i := Index {
+    Name: "bffcorreia", // public
+    name: "gdg",        // private
+  }
+
+  templates.ExecuteTemplate(w, "index", &i)
 }
 
 func main() { http.HandleFunc("/", handler)
