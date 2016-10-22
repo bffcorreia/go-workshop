@@ -1,6 +1,39 @@
 {{ define "index" }}
 
 {{ template "header" .Header }}
-<center>Hello there {{ .Name }}!</center>
+<center>
+  Hello there {{ .Name }}!
+  <br><br>
+<div id="chat">
+  <b>Chat</b><br>
+</div>
+
+<input type="text" id="message-input"/>
+<button id="message-btn">Message</button>
+</center>
+
+<script>
+  var socket = new WebSocket("ws://localhost:8080/ws")
+
+  socket.onopen = function(event) {
+    socket.send("Client joined");
+  }
+
+  socket.onbeforeunload = function(event) {
+    socket.close();
+  }
+
+  socket.onmessage = function(event){
+    var box = document.createElement("div");
+    box.innerHTML = event.data;
+    document.getElementById("chat").appendChild(box);
+  }
+
+  document.getElementById("message-btn").addEventListener("click",
+      function(event) {
+      var text = document.getElementById("message-input").value;
+      socket.send(text);
+  })
+</script>
 {{ template "footer" }}
 {{ end }}
